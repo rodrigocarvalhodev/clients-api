@@ -12,9 +12,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2.4.2
+        
       - name: Login to Docker Hub
         uses: docker/login-action@v2.0.0
         
         with:
           username: ${{ secrets.DOCKER_USERNAME}}
           password: ${{ secrets.DOCKER_PASSWORD}}
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.4.0
+        with:
+          # The Java version to set up. Takes a whole or semver Java version. See examples of supported syntax in README file
+          java-version: '11'
+          # Java distribution. See the list of supported distributions in README file
+          distribution: 'adopt'
+      - name: Build ClientsAPI Docker Image
+        working-directory: ./
+        run: mvn spring-boot:build-image
