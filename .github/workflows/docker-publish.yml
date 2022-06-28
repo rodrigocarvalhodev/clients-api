@@ -30,3 +30,7 @@ jobs:
       - name: Build ClientsAPI Docker Image
         working-directory: ./
         run: mvn spring-boot:build-image
+      - name: Push to Docker Hub
+        run: |
+          docker tag ${{ secrets.DOCKER_USERNAME}}/clients-api:0.0.1-SNAPSHOT ${{ secrets.DOCKER_USERNAME}}/clients-api:${{ github.run_id }}
+          docker push ${{ secrets.DOCKER_USERNAME}}/clients-api:${{ github.run_id }}
